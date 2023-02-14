@@ -2766,7 +2766,7 @@ This allows using a different mpirun command to launch unit tests
     <DESC>NERSC EX AMD EPYC, os is CNL, 64 pes/node, batch system is Slurm</DESC>
     <NODENAME_REGEX>$ENV{NERSC_HOST}:perlmutter</NODENAME_REGEX>
     <OS>CNL</OS>
-    <COMPILERS>gnu,cray,nvidia,aocc</COMPILERS>
+    <COMPILERS>gnu,cray,nvhpc,aocc</COMPILERS>
     <MPILIBS>mpich</MPILIBS>
     <PROJECT>mp9_g</PROJECT>
     <CIME_OUTPUT_ROOT>$ENV{SCRATCH}</CIME_OUTPUT_ROOT>
@@ -2800,7 +2800,7 @@ This allows using a different mpirun command to launch unit tests
       <cmd_path lang="sh">module</cmd_path>
       <cmd_path lang="csh">module</cmd_path>
       <modules>
-        <command name="rm">PrgEnv-nvidia</command>
+	<command name="rm">PrgEnv-nvidia</command>
         <command name="rm">PrgEnv-cray</command>
         <command name="rm">PrgEnv-aocc</command>
         <command name="rm">PrgEnv-gnu</command>
@@ -2826,15 +2826,21 @@ This allows using a different mpirun command to launch unit tests
         <command name="load">PrgEnv-gnu</command>
         <command name="switch">gcc gcc/11.2.0</command>
       </modules>
-      <modules>
+      <modules compiler="cray">
         <command name="swap">craype craype/2.7.10</command>
       </modules>
-      <modules>
+      <modules compiler="cray">
         <command name="switch">cray-libsci/21.08.1.2</command>
       </modules>
-      <modules>
+      <modules compiler="cray">
         <command name="load">cray-mpich/8.1.9</command>
       </modules>
+
+      <modules compiler="nvhpc">
+	<command name="load">PrgEnv-nvhpc</command>
+	<command name="load">nvhpc/22.7</command>
+      </modules>
+
       <modules mpilib="mpi-serial">
         <command name="rm">cray-netcdf-hdf5parallel</command>
         <command name="rm">cray-hdf5-parallel</command>
@@ -2842,13 +2848,23 @@ This allows using a different mpirun command to launch unit tests
         <command name="load">cray-hdf5/1.12.0.7</command>
         <command name="load">cray-netcdf/4.7.4.7</command>
       </modules>
-      <modules mpilib="!mpi-serial">
-        <command name="load">cray-hdf5-parallel/1.12.0.7</command>
-        <command name="load">cray-netcdf-hdf5parallel/4.7.4.7</command>
-        <command name="load">cray-parallel-netcdf/1.12.1.7</command>
+      <modules compiler="nvhpc" mpilib="!mpi-serial">
+        <command name="load">cray-parallel-netcdf</command>
+        <command name="use">/opt/cray/pe/lmod/modulefiles/mpi/nvidia/20/ofi/1.0/cray-mpich/8.0/cray-hdf5-parallel/</command>
+        <command name="load">1.12.2.1</command>
+        <command name="use">/opt/cray/pe/lmod/modulefiles/hdf5-parallel/nvidia/20/ofi/1.0/cray-mpich/8.0/cray-hdf5-parallel/1.12.2/</command>
+        <command name="load">cray-netcdf-hdf5parallel</command>
+      </modules>
+      <modules compiler="nvhpc" mpilib="!mpi-serial" DEBUG="TRUE">
+        <command name="use">/global/common/software/m4180/esmf/modulefiles/esmfpkgs/nvhpc/22.7/</command>
+        <command name="load">esmf-8.4.0-defio-mpi-g</command>
+      </modules>
+      <modules compiler="nvhpc" mpilib="!mpi-serial" DEBUG="FALSE">
+        <command name="use">/global/common/software/m4180/esmf/modulefiles/esmfpkgs/nvhpc/22.7/</command>
+        <command name="load">esmf-8.4.0-defio-mpi-O</command>
       </modules>
       <modules>
-        <command name="load">cmake/3.20.5</command>
+        <command name="load">cmake/3.22.0</command>
       </modules>
     </module_system>
     <environment_variables>
