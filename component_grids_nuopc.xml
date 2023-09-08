@@ -402,8 +402,8 @@
       <support>Experimental, under development</support>
     </domain>
     <domain name="oQU120">
-      <nx>28571</nx>  <ny>1</ny>
-      <mesh driver="nuopc">/glade/p/univ/ucsu0085/inputdata/oQU120_ESMFmesh.nc</mesh>
+      <nx>28876</nx>  <ny>1</ny>
+      <mesh driver="nuopc">$DIN_LOC_ROOT/ocn/mpas-o/oQU120/oQU120_ESMFmesh.230524.nc</mesh>
       <desc>oQU120 is a MPAS ocean grid that is roughly 1 degree resolution:</desc>
       <support>Experimental, under development</support>
     </domain>
